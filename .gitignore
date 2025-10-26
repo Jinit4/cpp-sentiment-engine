@@ -1,0 +1,8 @@
+#Ignore the build directory
+/build/
+
+#Ignore temporary build artifacts
+*.o
+*.exe
+*.out
+*.log
