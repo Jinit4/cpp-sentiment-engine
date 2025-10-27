@@ -8,5 +8,9 @@ include_directories(include external)
 #Adds the folders include and external to the compilers search path for headers.
 #This is why nlohmann/json header in the external can be found.
 
-add_executable(sentiment_engine src/main.cpp)
+add_executable(sentiment_engine 
+    src/main.cpp
+    src/preprocess.cpp
+)
 #Tells CMake to compile src/main.cpp into an executable called sentiment engine.
+#Including the new source file preprocess.cpp
