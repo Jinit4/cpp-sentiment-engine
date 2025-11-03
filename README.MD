@@ -8,6 +8,16 @@ This project mimics how production AI systems work under the hood — focusing o
 
 - Set up the C++ project environment, integrate JSON parsing, and test data reading.
 - Initialized a modular CMake project structure:
-<pre> ```text cpp-sentiment-engine/ ├── src/ │ ├── main.cpp │ ├── preprocess.cpp │ └── features.cpp ├── include/ │ ├── preprocess.h │ └── features.h ├── data/ │ ├── sample.json │ ├── dataset.json │ └── sentiment_lexicon.json ├── external/ │ └── json.hpp └── CMakeLists.txt ``` </pre>
+
+```bash
+cpp-sentiment-engine/
+├── src/
+├── include/
+├── data/
+├── external/
+├── build/
+└── CMakeLists.txt
+```
+
 - Installed and used the nlohmann/json library for JSON parsing.
 - JSON parsing validated and ready for AI integration.
