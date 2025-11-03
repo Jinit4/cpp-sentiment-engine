@@ -11,6 +11,7 @@ include_directories(include external)
 add_executable(sentiment_engine 
     src/main.cpp
     src/preprocess.cpp
+    src/features.cpp
 )
 #Tells CMake to compile src/main.cpp into an executable called sentiment engine.
 #Including the new source file preprocess.cpp

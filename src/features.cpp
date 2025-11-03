@@ -1,44 +1,51 @@
-#include "features.h"
-#include<unordered_map>
-#include <vector>
-#include <string>
+#include"features.h"
+#include <iostream>
 #include <algorithm>
 
-//Example sentiment lexicon (extend as needed)
-std::unordered_map<std::string, int> sentiment_lexicon = {
-    {"good",1},
-    {"great", 2},
-    {"excellent", 3},
-    {"bad", -1},
-    {"terrible", -2},
-    {"horrible", -3},
-    {"happy", 2},
-    {"sad", -2},
-    {"love", 3},
-    {"hate", -3},
-};
+//Function: Build_vocabulary
+//Purpose: Count word occurences in the dataset
 
-// Convert tokenized text into word frequency map
-std::unordered_map<std::string, int> extract_feature(const std::vector<std::string>& tokens) {
-    std::unordered_map<std::string, int> features; //Create an unordered_map (a hash table) to store word -> count
-    for (const auto& token : tokens){ //Loop through every token in the input vector
-        features[token]++;
-    }
-    return features; 
-}
+Vocabulary build_vocabulary(const std::vector<DataEntry>& dataset){
+    Vocabulary vocab;
 
-//Compute sentiment score
-int compute_sentiment_score(const std::vector<std::string>& tokens){
-    //Start sentiment score at 0
-    int score = 0;
+    for(const auto& entry: dataset) {
+        //Step 1: Clean the text (remove punctuation, lowecase, etc)
+        std::string cleaned = clean_text(entry.text);
+        //Step 2: Tokenize the cleaned text into individual words
+        auto tokens = tokenize(cleaned);
 
-    //Loop through each token (word)
-    for (const auto& token : tokens) {
-        //Try to find token in the sentiment_lexicon map
-        auto it = sentiment_lexicon.find(token);
-        if ( it != sentiment_lexicon.end()){
-            score+= it->second; //As first is the text and second is its value we are pointing it to second
+        //Step 3: For each token, increment its frequeny count in th ap
+        for (const auto& word : tokens){
+            vocab[word]++; 
         }
     }
-    return score;
+
+    //print the total number of unique words found in the dataset
+    std::cout << "Vocabulary built with " << vocab.size() << "unique words.\n";
+    return vocab;
+}
+
+//Function: compute_sentiment_score
+//Purpose: Compute a simple rule-based sentiment score for a given text.
+
+double compute_sentiment_score(
+    const std::vector<std::string>& tokens, //words from input text
+    const std::vector<std::string>& positive_words, // list of positive sentiment words
+    const std::vector<std::string>& negative_words //list of negative sentiment words
+){
+    int pos_count=0;
+    int neg_count=0;
+    //Step 1: Loop through each token(word) in the text
+    for (const auto& token : tokens){
+        //Check if word is in positive or negative list
+        if (std::find(positive_words.begin(), positive_words.end(), token) != positive_words.end())
+            pos_count++;
+        else if (std::find(negative_words.begin(), negative_words.end(), token) != negative_words.end())
+            neg_count++;
+    }
+
+    //Compute a simple sentiment score between -1 and +1
+    int total = pos_count + neg_count;
+    if (total == 0) return 0.0;
+    return static_cast<double>(pos_count - neg_count)/total;
 }

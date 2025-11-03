@@ -1,10 +1,18 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <map>
+#include "preprocess.h"
 
-// Convert tokenized text into word frequency map
-std::unordered_map<std::string, int> extract_features(const std::vector<std::string> &tokens);
+//Define Vocabulary type (word -> frequency)
+using Vocabulary = std::map<std::string, int>;
 
-// Simple sentiment scoring using a lexicon
-int compute_sentiment_score(const std::vector<std::string> &tokens);
+//Function to build vocabulary from dataset
+Vocabulary build_vocabulary(const std::vector<DataEntry>& dataset);
+
+//Function to compute sentiment score for a given sentence
+double compute_sentiment_score(
+    const std::vector<std::string>& tokens,
+    const std::vector<std::string>& positive_words,
+    const std::vector<std::string>& negative_words
+);
