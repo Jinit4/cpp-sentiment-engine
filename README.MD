@@ -75,7 +75,7 @@ cpp-sentiment-engine/
 
 # Architecture Overview
 
-````bash
+```bash
 Text Input
 ↓
 Preprocessing (cleaning, tokenization)
@@ -87,6 +87,8 @@ Logistic Regression Training (Gradient Descent)
 Probability Prediction (Sigmoid)
 ↓
 Sentiment Classification
+
+```
 
 # Repo Structure (Current)
 
@@ -108,4 +110,4 @@ cpp-sentiment-engine/
 │   └── json.hpp          # nlohmann/json (header-only)
 ├── build/                # CMake build directory Ignored by Git
 └── CMakeLists.txt
-````
+```
