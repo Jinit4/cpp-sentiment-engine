@@ -55,23 +55,57 @@ cpp-sentiment-engine/
 - Demonstrated data-driven design via extwernal JSON lexicon.
 - Laid foundation for Day 4 ML model integration.
 
+## Day 4 Logistic Regression Model
+
+- Added model.h and model.cpp
+- Implemented Logistic Regression classifier from first principles.
+- Implemented sigmoid activation and binary cross-entropy loss.
+- Implemented batch gradient descent for model training.
+- Added model serilization and deserialization using JSON.
+- Integrated full training and inference pipeline into main.cpp
+- Added extensive debugging checks for feature vectors, labels, and gradients.
+
+# Outcome
+
+- Built a complete ML model without external ML frameworks.
+- Demonstrated deep understanding of ML mathematics and optimization.
+- Identified and resolved real-world ML failure modes (data symmetry, zero gradients).
+- Enabled probabilistic sentiment prediction in native C++.
+- Transitioned project from rule-based AI to a trainable ML system.
+
+# Architecture Overview
+
+``bash
+Text Input
+↓
+Preprocessing (cleaning, tokenization)
+↓
+Feature Engineering (Bag-of-Words vectorization)
+↓
+Logistic Regression Training (Gradient Descent)
+↓
+Probability Prediction (Sigmoid)
+↓
+Sentiment Classification
+
 # Repo Structure (Current)
 
 ```bash
 cpp-sentiment-engine/
 ├── src/
-│   ├── main.cpp
-│   ├── preprocess.cpp
-│   └── features.cpp
+│   ├── main.cpp          # Training + inference pipeline
+│   ├── preprocess.cpp    # Text cleaning & tokenization
+│   ├── features.cpp      # Vocabulary building & vectorization
+│   ├── model.cpp         # Logistic Regression implementation
 ├── include/
 │   ├── preprocess.h
-│   └── features.h
+│   ├── features.h
+│   ├── model.h
 ├── data/
-│   ├── sample.json
-│   ├── dataset.json
-│   └── sentiment_lexicon.json
+│   ├── dataset.json      # Training dataset
+│   ├── model.json        # Saved trained model
 ├── external/
-│   └── json.hpp
-├── CMakeLists.txt
-└── build/  # Ignored by Git
+│   └── json.hpp          # nlohmann/json (header-only)
+├── build/                # CMake build directory Ignored by Git
+└── CMakeLists.txt
 ```
