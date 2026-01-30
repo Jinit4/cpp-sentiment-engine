@@ -75,7 +75,7 @@ cpp-sentiment-engine/
 
 # Architecture Overview
 
-``bash
+````bash
 Text Input
 ↓
 Preprocessing (cleaning, tokenization)
@@ -108,4 +108,4 @@ cpp-sentiment-engine/
 │   └── json.hpp          # nlohmann/json (header-only)
 ├── build/                # CMake build directory Ignored by Git
 └── CMakeLists.txt
-```
+````
