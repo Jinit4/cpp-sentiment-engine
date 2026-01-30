@@ -77,15 +77,15 @@ cpp-sentiment-engine/
 
 ```bash
 Text Input
-↓
+    ↓
 Preprocessing (cleaning, tokenization)
-↓
+    ↓
 Feature Engineering (Bag-of-Words vectorization)
-↓
+    ↓
 Logistic Regression Training (Gradient Descent)
-↓
+    ↓
 Probability Prediction (Sigmoid)
-↓
+    ↓
 Sentiment Classification
 
 ```
