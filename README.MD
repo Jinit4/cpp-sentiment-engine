@@ -22,7 +22,7 @@ cpp-sentiment-engine/
 - Installed and used the nlohmann/json library for JSON parsing.
 - JSON parsing validated and ready for AI integration.
 
-# Outcome.
+### Outcome
 
 - Project environment ready for AI development.
 - Verified JSON parsing and build pipeline.
@@ -37,7 +37,7 @@ cpp-sentiment-engine/
 - Updates main.cpp to test preprocessing.
 - Printed raw, cleaned and tokenized text for verification.
 
-# Outcome
+### Outcome
 
 - Built robust text preprocessing pipeline.
 - Modularized preprocessing logic for future ML integration.
@@ -55,7 +55,7 @@ cpp-sentiment-engine/
 - Demonstrated data-driven design via extwernal JSON lexicon.
 - Laid foundation for Day 4 ML model integration.
 
-### Repo Structure (Current)
+# Repo Structure (Current)
 
 ```bash
 cpp-sentiment-engine/
