@@ -9,6 +9,10 @@
 #include "features.h"
 #include "model.h"
 
+#include <algorithm>
+#include <random>
+#include <numeric>
+
 using json = nlohmann::json;
 
 int main()
@@ -65,9 +69,41 @@ int main()
 
         X.push_back(features);
     }
+
+    // Split the dataset into train and test.
+    size_t dataset_size = X.size();
+    std::vector<size_t> indices(dataset_size);
+    std::iota(indices.begin(), indices.end(), 0);
+
+    // Shuffle
+    std ::shuffle(indices.begin(), indices.end(),
+                  std::default_random_engine(time(0)));
+
+    size_t train_size = dataset_size * 0.8;
+
+    std::vector<std::vector<double>> X_train, X_test;
+    std::vector<double> y_train, y_test;
+
+    for (size_t i = 0; i < dataset_size; i++)
+    {
+        if (i < train_size)
+        {
+            X_train.push_back(X[indices[i]]);
+            y_train.push_back(labels[indices[i]]);
+        }
+        else
+        {
+            X_test.push_back(X[indices[i]]);
+            y_test.push_back(labels[indices[i]]);
+        }
+    }
+
+    std::cout << "Training Samples: " << X_train.size() << "\n";
+    std::cout << "Testing Samples: " << X_test.size() << "\n";
+
     // SAFETY CHECK: Ensure features are not all zeros
     bool all_zero = true;
-    for (double v : X[0])
+    for (double v : X_train[0])
     {
         if (v != 0.0)
         {
@@ -99,7 +135,37 @@ int main()
 
     std::cout << "Training Logistic Regression model ... \n";
 
-    model.train(X, labels, learning_rate, iterations);
+    model.train(X_train, y_train, learning_rate, iterations);
+
+    int TP = 0, TN = 0, FP = 0, FN = 0;
+
+    for (size_t i = 0; i < y_test.size(); i++)
+    {
+        int pred = model.predict(X_test[i]);
+
+        if (pred == 1 && y_test[i] == 1)
+            TP++;
+        else if (pred == 1 && y_test[i] == 0)
+            FP++;
+        else if (pred == 0 && y_test[i] == 0)
+            TN++;
+        else if (pred == 0 && y_test[i] == 1)
+            FN++;
+    }
+
+    // Compute metrics
+    double accuracy = double(TP + TN) / y_test.size();
+    double precision = (TP + FP == 0) ? 0 : double(TP) / (TP + FP);
+    double recall = (TP + FN == 0) ? 0 : double(TP) / (TP + FN);
+
+    double f1 = (precision + recall == 0) ? 0 : 2 * precision * recall / (precision + recall);
+
+    // Print results
+    std::cout << "Model Evaluation results \n";
+    std::cout << "Accuracy: " << accuracy * 100 << "%\n";
+    std::cout << "Precision: " << precision * 100 << "%\n";
+    std::cout << "Recall: " << recall * 100 << "%\n";
+    std::cout << "F1 Score: " << f1 * 100 << "%\n";
 
     // std::cout << "Labels preview: ";
     // for (int i = 0; i < 10 && i < labels.size(); i++)
@@ -126,6 +192,6 @@ int main()
     std::cout << "Prediction Probability: " << probablity << "\n";
     std::cout << "Predicted sentiment: " << (prediction == 1 ? "Positive" : "Negative") << "\n";
 
-    std::cout << " Day 4 pipeline completed sucessfully\n";
+    std::cout << " Logistic Regression with Train/Test Evaluation \n";
     return 0;
 }
