@@ -73,20 +73,50 @@ cpp-sentiment-engine/
 - Enabled probabilistic sentiment prediction in native C++.
 - Transitioned project from rule-based AI to a trainable ML system.
 
+## Day 5 Train/Test Split & Model Evaluation Metrics
+
+- Implemented proper train/test dataset splitting (80/20) for realistic ML evaluation.
+- Added randomized shuffling of samples to prevent ordering bias during training.
+- Introduced a complete model evaluation pipeline after training.
+- Implemented confusion-matrix based performance tracking:
+  - True Positives (TP)
+  - True Negatives (TN)
+  - False Positives (FP)
+  - False Negatives (FN)
+
+- Added industry-standard evaluation metrics:
+  - Accuracy
+  - Precision
+  - Recall
+  - F1 Score
+
+- Integrated evaluation directly into main.cpp to validate model generalization.
+- Debugged real-world ML challenges such as dataset imbalance and unstable metrics on small datasets.
+
+# Outcome
+
+- Transitioned from simple inference to a complete ML experimentation workflow.
+- Enabled proper testing of model performance on unseen data.
+- Demonstrated understanding of real ML evaluation beyond accuracy.
+- Established a foundation for scalable dataset integration and TF-IDF upgrades in Day 6.
+- Brought the project closer to industry-grade ML engineering standards.
+
 # Architecture Overview
 
 ```bash
-Text Input
+Dataset (JSON)
     ↓
 Preprocessing (cleaning, tokenization)
     ↓
 Feature Engineering (Bag-of-Words vectorization)
     ↓
+Train/Test Split (80/20)
+    ↓
 Logistic Regression Training (Gradient Descent)
     ↓
-Probability Prediction (Sigmoid)
+Evaluation Metrics (Accuracy, Precision, Recall, F1)
     ↓
-Sentiment Classification
+Model Saving + Sentiment Prediction
 
 ```
 
@@ -95,7 +125,7 @@ Sentiment Classification
 ```bash
 cpp-sentiment-engine/
 ├── src/
-│   ├── main.cpp          # Training + inference pipeline
+│   ├── main.cpp          # Training + evaluation + inference pipeline
 │   ├── preprocess.cpp    # Text cleaning & tokenization
 │   ├── features.cpp      # Vocabulary building & vectorization
 │   ├── model.cpp         # Logistic Regression implementation
