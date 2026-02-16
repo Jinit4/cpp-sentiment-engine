@@ -8,6 +8,7 @@
 #include "preprocess.h"
 #include "features.h"
 #include "model.h"
+#include "tfdif.h"
 
 #include <algorithm>
 #include <random>
@@ -17,7 +18,7 @@ using json = nlohmann::json;
 
 int main()
 {
-    std::cout << "Day 4: Logistic Regression Training in C++\n";
+    std::cout << "Day 6: TF-IDF Upgrade Complete \n";
 
     // Load Dataset from JSON
     std::ifstream file("../data/dataset.json");
@@ -65,9 +66,19 @@ int main()
         // // Convert tokens into numeric vector
         // std::vector<double> features = vectorize(tokens, vocab);
         auto tokens = tokenize(clean_text(entry.text));
-        auto features = vectorize(tokens, vocab);
 
-        X.push_back(features);
+        std::vector<std::vector<std::string>> corpus_tokens;
+
+        for (auto &entry : dataset)
+        {
+            corpus_tokens.push_back(tokenize(clean_text(entry.text)));
+        }
+        auto idf_values = compute_idf(corpus_tokens, vocab);
+        X.clear();
+        for (auto &tokens : corpus_tokens)
+        {
+            X.push_back(compute_tfdif(tokens, vocab, idf_values));
+        }
     }
 
     // Split the dataset into train and test.
@@ -178,8 +189,9 @@ int main()
     model.save_model("../data/model.json");
     std::cout << "Model saved to data/model.json\n";
 
-    // Test model with a new sentence
-    std::string test_sentence = "This product is okay";
+    std::string test_sentence;
+    std::cout << "\n Enter a sentence to analyze: ";
+    std::getline(std::cin, test_sentence);
 
     std::string cleaned = clean_text(test_sentence);
     std::vector<std::string> tokens = tokenize(cleaned);
@@ -192,6 +204,5 @@ int main()
     std::cout << "Prediction Probability: " << probablity << "\n";
     std::cout << "Predicted sentiment: " << (prediction == 1 ? "Positive" : "Negative") << "\n";
 
-    std::cout << " Logistic Regression with Train/Test Evaluation \n";
     return 0;
 }
