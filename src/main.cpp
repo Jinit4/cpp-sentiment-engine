@@ -65,7 +65,7 @@ int main()
 
         // // Convert tokens into numeric vector
         // std::vector<double> features = vectorize(tokens, vocab);
-        auto tokens = tokenize(clean_text(entry.text));
+        auto tokens = apply_negation (tokenize(clean_text(entry.text)));
 
         std::vector<std::vector<std::string>> corpus_tokens;
 
@@ -188,6 +188,19 @@ int main()
     // Save Trained Model
     model.save_model("../data/model.json");
     std::cout << "Model saved to data/model.json\n";
+
+    //Save vocab.json
+    json vocab_out;
+    for (auto &p : vocab)
+        vocab_out[p.first] = p.second;
+
+    std::ofstream("../data/vocab.json") << vocab_out.dump(4);
+
+    // Save idf.json
+    json idf_out;
+    idf_out["idf"] = idf_values;
+
+    std::ofstream("../data/idf.json") << idf_out.dump(4);
 
     std::string test_sentence;
     std::cout << "\n Enter a sentence to analyze: ";
