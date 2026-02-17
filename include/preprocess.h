@@ -25,3 +25,6 @@ std:: string clean_text(const std::string& text);
 
 std::vector<std::string> tokenize(const std::string& text);
 //Splits the cleaned text into individual words.
+
+std::vector<std::string> apply_negation(const std::vector<std::string>& tokens);
+//Apply negation and combines words like not to get a better output.

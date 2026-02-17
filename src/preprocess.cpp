@@ -63,3 +63,19 @@ std::vector<std::string> tokenize(const std::string &text)
     }
     return tokens;
 }
+//Detect negations like not_--- 
+std::vector<std::string> apply_negation(const std::vector<std::string>&tokens)
+{ 
+    std::vector<std::string> result;
+    for (size_t i = 0; <tokens.size(); i++){
+        if (tokens[i] == "not" && i+1 << tokens.size()){
+            //combine into one token
+            result.push_back("not_"+tokens[i+1]);
+            i++;//Skip next token;
+        }
+        else {
+            result.push_back(tokens[i]);
+        }
+    }
+    return result;
+}
